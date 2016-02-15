@@ -1,0 +1,150 @@
+body {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    background-color: #999;
+    color: #fff;
+}
+h3 {
+    color: #8EF4EF;
+
+}
+/* -------------- Start of Nav Bar -------------- */
+#navbar {
+    display: flex;
+    flex-direction: row;
+    top:0;
+    left:0;
+    height: 80px;
+    margin: 0 auto;
+    padding:0;
+    background: #333;
+    max-width: 1600px;
+    max-height:100px;
+
+}
+
+.midNav ul {
+    list-style-type: none;
+    text-align: center;
+    /*overflow:hidden;*/
+}
+
+.midNav li {
+    float:left;
+}
+
+.leftNav {
+    line-height: 50px;
+    font-size: 30px;
+}
+
+.rightNav {
+    line-height: 50px;
+    margin-left: auto;
+    margin-right: 3%;
+}
+#btnLogout {
+  margin-left:5px;
+}
+
+.midNav li a, .leftNav, .rightNav {
+    display: block;
+    color: #72f1eb;
+    padding: 14px 15px;
+    text-decoration:none;
+}
+
+.midNav li a:hover {
+    color: #fff;
+}
+
+/* -------------- End of Nav Bar -------------- */
+
+/* -------------- Start of Content -------------- */
+#body{
+    margin: 18px auto 0px;
+    max-width: 1500px;
+    overflow: hidden;
+}
+
+.playerInventory, #GameStatus {
+    float:left;
+    margin-left: 5%;
+    width:50%;
+    padding: 14px 15px;
+    background-color: #555;
+}
+
+#ActivityFeed, #assemblerArea, #EquityTable, #OtherPlayers {
+    float:left;
+    margin-bottom: 2%;
+    margin-left:5%;
+    width:30%;
+    padding: 14px 15px;
+    background-color: #555;
+}
+
+#EquityTable a:visited {
+  text-decoration:none;
+  color: #8EF4EF;;
+}
+
+#EquityTable a:link {
+  text-decoration:none;
+  color: #8EF4EF;;
+}
+
+#selectPortfolio {
+  margin-left: 5%;
+  margin-bottom: 2%;
+  width:30%;
+
+}
+
+ .botpiece{
+  display:block;
+  width:100px;
+  float:left;
+  margin:3% 4% 0% 0%;
+}
+
+.botpiece > img {
+width:100px;
+
+}
+.botsubtitle{
+  font-style: italic;
+  text-align: center;
+}
+
+/* -------------- End of Content -------------- */
+
+
+/* -------------- Start of Assembly -------------- */
+
+#assembleButton {
+
+  margin:2% auto 0% auto;
+  width:200px;
+  height:50px;
+
+}
+#assembleButton > input{
+  width:200px;
+  height:50px;
+}
+
+.assemblerPiece{
+  text-align:center;
+  margin:2% auto 0% auto;
+
+  height:100px;
+}
+.assemblerPiece > img{
+
+  height:100px;
+}
+.assemblerPiece:hover, #assemblerInventory .botpiece:hover{
+  cursor:pointer;
+}
+
+/* -------------- End of Assembly -------------- */
