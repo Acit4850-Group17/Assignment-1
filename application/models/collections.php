@@ -15,14 +15,22 @@ class Collections extends MY_Model {
 
 	//returns all collected robots for a single player ordered by date, descending (most recent to least)
 	function collection_by_player($playerName){
-		$return = $this->get_limited("player", $playerName);
+		$name = strtolower($playerName);
+		//should probably also filter by agent in case two players have the same name
+		$return = $this->get_limited("player", $name);
 		return $return;
 	}
 
 	//returns a count of the players cards
 	function get_player_equity($playerName){
-		$return = $this->get_limited("player", $playerName);
-		$value = count($return);
+		$name = strtolower($playerName);
+		$return = $this->get_limited("player", $name);
+		if($return != ""){
+			$value = count($return);
+		}
+		else{
+			$value = 0;
+		}
 		return $value;
 	}
 

@@ -90,16 +90,17 @@ class Admin extends Application {
 
 					//loading the xml
 					$xml = simplexml_load_string($result);
+
 					//if there is an error XML node:
-					if(count($xml->error) > 0){
+					if(count($xml->message) > 0){
 						$output = "<input type='submit' value='Register App'/><div class='button'>Error: ". $xml->message . "</div>";
 					}
 					//else if there is a team XML node:
 					else if(count($xml->team) > 0){
 						$output = "<div class='button'>Registered! Team: ". $xml->team . "</div>";
 
-						$_SESSION['team'] = $xml->team;
-						$_SESSION['token'] = $xml->token;
+						$_SESSION['team'] = $xml->team->__toString();
+						$_SESSION['token'] = $xml->token->__toString();
 					}
 					else{
 						$output = "<input type='submit' value='Register App'/><div class='button'>Error: Unhandled return data!</div>";
@@ -119,7 +120,6 @@ class Admin extends Application {
 					//Setting all the created data to their appropriate placeholders
 					$this->data['registerButton'] = $output;
 					$this->data['tableData'] = $rows;
-					$this->Render();
 				}
 				else{
 					$this->data['pagebody'] = 'error_403';
@@ -143,9 +143,12 @@ class Admin extends Application {
 			if($_SESSION['loggedIn'] == true){
 				if($this->players->get_player_admin($_SESSION['username'])){
 					$this->players->adminify_player($playerName);
+
 				}
 			}
+
 		}
+		session_write_close();
 		$this->index();
 
 	}
@@ -159,6 +162,7 @@ class Admin extends Application {
 				}
 			}
 		}
+		session_write_close();
 		$this->index();
 	}
 }

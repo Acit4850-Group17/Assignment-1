@@ -11,7 +11,7 @@ class Players extends CI_Model {
 	//Returns all players
 	//Where clause removes header row
 	function all(){
-		$query = $this->db->query("SELECT player, peanuts, admin FROM players;");
+		$query = $this->db->query("SELECT player, peanuts, admin, avatarURI FROM players;");
 		return $query->result_array();
 	}
 
@@ -27,9 +27,14 @@ class Players extends CI_Model {
 		return $value[0]['peanuts'];
 	}
 
-	function create_player($player, $password){
+	function set_player_peanuts($playerName, $peanuts){
+		$query = $this->db->query("UPDATE players SET peanuts = $peanuts WHERE player = '$playerName';");
+		return $query;
+	}
+
+	function create_player($player, $password, $avatarURI){
 		$passEncrypt = password_hash($password, PASSWORD_DEFAULT);
-		$query = $this->db->query("INSERT INTO players (player, password) VALUES ('$player', '$passEncrypt')");
+		$query = $this->db->query("INSERT INTO players (player, password, avatarURI) VALUES ('$player', '$passEncrypt', '$avatarURI')");
 		return $query;
 	}
 

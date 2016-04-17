@@ -10,7 +10,7 @@ $(document).ready(function(){
   $("#assemblerInventory").on("click", ".botpiece", function(){
         var token = $(this).attr("data-token");
         $.ajax({
-          url: "/get_collection_by_token",
+          url: "/Assembly/select_bot",
           type: 'POST',
           data: ("token=" + token),
           dataType: 'json',
@@ -21,12 +21,16 @@ $(document).ready(function(){
                 switch (type){
                   case "0":
                     $("#headPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#headPiece > img").attr("data-token", token);
+
                     break;
                   case "1":
                     $("#midPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#midPiece > img").attr("data-token", token);
                     break;
                   case "2":
                     $("#legPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#legPiece > img").attr("data-token", token);
                     break;
                   default:
                     break;
@@ -49,8 +53,22 @@ $(document).ready(function(){
 
     //resets the assembler loading area when you submit a built bot
     $("#assemblerArea").on("click", "#assembleButton", function(){
-      $("#assemblerArea").children("div").children("img").attr("src", "/assets/images/unknown.jpeg");
-      alert('Not implemented yet!');
+        headPiece = $("#headPiece > img").attr("data-token");
+        midPiece = $("#midPiece > img").attr("data-token");
+        legPiece = $("#legPiece > img").attr("data-token");
+        $.ajax({
+          url: "/Assembly/sell_bot",
+          type: 'POST',
+          data: ("headPiece=" + headPiece + "&midPiece=" + midPiece + "&legPiece=" + legPiece),
+          dataType: 'text',
+          success: function(data) {
+            alert(data);
+            window.location.replace("/Assembly");
+          },
+          error : function (jqXHR, textStatus, errorThrown){
+              alert('Error with the connection: ' + textStatus + " " + errorThrown);
+         }
+        });
     });
 
     //Delegation for general logging and and out

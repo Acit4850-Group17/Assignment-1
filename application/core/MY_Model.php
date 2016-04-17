@@ -48,8 +48,8 @@ class MY_Model extends CI_Model {
 		}
 		fclose($handle);
 		return $return;
-
 	}
+
 	//Function that gets all values and returns them as an associative
 	//array, with the column headers being the index value for each row
 	// that ALSO limits a field by a single value (since almost all our more

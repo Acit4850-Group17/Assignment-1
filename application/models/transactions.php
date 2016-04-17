@@ -18,7 +18,8 @@ class Transactions extends MY_Model {
 
 	//gets all transactions for a single player
 	function transactions_by_player($playerName){
-		$return = $this->get_limited("player", $playerName);
+		$name = strtolower($playerName);
+		$return = $this->get_limited("player", $name);
 		return $return;
 	}
 

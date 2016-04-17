@@ -57,7 +57,21 @@ class Welcome extends Application {
 		foreach($players as $player) {
 			$equity = $this->collections->get_player_equity($player["player"]);
 			$peanuts = $this->players->get_player_peanuts($player["player"]);
-			$list .= "<div><a href='/portfolio/" . $player["player"] . "'>Player " . $player["player"] . "</a>: Equity: " . ($equity + $peanuts) . ", Peanuts: " . $peanuts . "</div>";
+			$list .= "<div class='playerContainer'>";
+			$list .= "<div class='playerPortfolio'><img src='" . $player["avatarURI"] . "' alt='avatar'></div>";
+			$list .= "<div class='playerLink'><a href='/portfolio/" . $player["player"] . "'>Player " . $player["player"] . "</a>: Equity: " . ($equity + $peanuts) . ", Peanuts: " . $peanuts . "</div>";
+			$trans = $this->transactions->transactions_by_player($player["player"]);
+			if($trans != null){
+				$trans = array_reverse($trans);
+				$count = 0;
+				foreach($trans as $tran){
+					if($count < 5){
+						$list .= "<div class='transaction'>" . $tran["trans"] . " at " . $tran['datetime'] . "</div>";
+					}
+					$count++;
+				}
+			}
+			$list .= "<div>";
 		}
 
 		//Setting all the created data to their appropriate placeholders

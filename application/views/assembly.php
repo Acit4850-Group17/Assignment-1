@@ -1,6 +1,17 @@
 <div class="playerInventory" id="assemblerInventory">
 	{inventory_table}
+
+	<div id="buyBotContainer">
+		<form action="/Assembly/buy_bot">
+			<input type="submit" value="Buy new bots!"/>
+		</form>
+		<div id="buyBotMessageBox">
+			{message}
+		</div>
+	</div>
+
 </div>
+
 
 <div id="assemblerArea">
 	<h3>Assembly Area:</h3>

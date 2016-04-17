@@ -9,4 +9,7 @@
     <div>
         Note: Avatars must be 256px by 256px.
     </div>
+    <div>
+        {error}
+    </div>
 </div>
