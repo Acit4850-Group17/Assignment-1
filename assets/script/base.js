@@ -9,23 +9,28 @@ $(document).ready(function(){
   //Ideally would also store the token as an attribute for later verification (for next assignment)
   $("#assemblerInventory").on("click", ".botpiece", function(){
         var token = $(this).attr("data-token");
-        console.log(token);
         $.ajax({
-          url: "/get_collection_by_token",
+          url: "/Assembly/select_bot",
           type: 'POST',
           data: ("token=" + token),
           dataType: 'json',
           success: function(data) {
+              console.log(data);
               if(data.message == "success"){
-                switch (data.CardPosition){
+                type = (data.piece).split("-")[1]; //gets the last part, after the '-' of the returned piece
+                switch (type){
                   case "0":
-                    $("#headPiece > img").attr("src", "/assets/images/" + data.Series + data.SubSeries + "-" + data.CardPosition + ".jpeg");
+                    $("#headPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#headPiece > img").attr("data-token", token);
+
                     break;
                   case "1":
-                    $("#midPiece > img").attr("src", "/assets/images/" + data.Series + data.SubSeries + "-" + data.CardPosition + ".jpeg");
+                    $("#midPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#midPiece > img").attr("data-token", token);
                     break;
                   case "2":
-                    $("#legPiece > img").attr("src", "/assets/images/" + data.Series + data.SubSeries + "-" + data.CardPosition + ".jpeg");
+                    $("#legPiece > img").attr("src", "/assets/images/" + data.piece + ".jpeg");
+                    $("#legPiece > img").attr("data-token", token);
                     break;
                   default:
                     break;
@@ -34,7 +39,10 @@ $(document).ready(function(){
               else{
                 alert("That is not your piece!");
               }
-          }
+          },
+          error: function (jqXHR, textStatus, errorThrown){
+			alert('Error with the connection: ' + textStatus + " " + errorThrown);
+        }
         });
     });
 
@@ -45,20 +53,36 @@ $(document).ready(function(){
 
     //resets the assembler loading area when you submit a built bot
     $("#assemblerArea").on("click", "#assembleButton", function(){
-      $("#assemblerArea").children("div").children("img").attr("src", "/assets/images/unknown.jpeg");
-      alert('Not implemented yet!');
+        headPiece = $("#headPiece > img").attr("data-token");
+        midPiece = $("#midPiece > img").attr("data-token");
+        legPiece = $("#legPiece > img").attr("data-token");
+        $.ajax({
+          url: "/Assembly/sell_bot",
+          type: 'POST',
+          data: ("headPiece=" + headPiece + "&midPiece=" + midPiece + "&legPiece=" + legPiece),
+          dataType: 'text',
+          success: function(data) {
+            alert(data);
+            window.location.replace("/Assembly");
+          },
+          error : function (jqXHR, textStatus, errorThrown){
+              alert('Error with the connection: ' + textStatus + " " + errorThrown);
+         }
+        });
     });
 
     //Delegation for general logging and and out
 
    //Calls a function to set username, and set loggedin to true
     $("body").on("click", "#btnLogin", function(){
-      var username = $(this).siblings('input').val();
+      var username = $("#inputUsername").val();
+      var password = $("#inputPass").val();
+
 
       $.ajax({
         url: "/login",
         type: 'POST',
-        data: ("username=" + username),
+        data: ("username=" + username + "&password=" + password),
         dataType: 'text',
         success: function(data) {
           console.log(data);

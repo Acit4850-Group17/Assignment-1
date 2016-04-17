@@ -66,7 +66,7 @@ h3 {
     overflow: hidden;
 }
 
-.playerInventory, #GameStatus {
+.playerInventory, #GameStatus, #registration, #player-table, .mainLeftBox {
     float:left;
     margin-left: 5%;
     width:50%;
@@ -74,7 +74,7 @@ h3 {
     background-color: #555;
 }
 
-#ActivityFeed, #assemblerArea, #EquityTable, #OtherPlayers {
+#ActivityFeed, #assemblerArea, #EquityTable, #OtherPlayers, #app-registration, .mainRightBox {
     float:left;
     margin-bottom: 2%;
     margin-left:5%;
@@ -102,7 +102,7 @@ h3 {
 
  .botpiece{
   display:block;
-  width:100px;
+  height:65px;
   float:left;
   margin:3% 4% 0% 0%;
 }
@@ -116,6 +116,13 @@ width:100px;
   text-align: center;
 }
 
+.playerPortfolio > img{
+    margin-left:5%;
+    max-width:20%;
+}
+.transaction{
+    padding-left: 3%;
+}
 /* -------------- End of Content -------------- */
 
 
@@ -146,5 +153,33 @@ width:100px;
 .assemblerPiece:hover, #assemblerInventory .botpiece:hover{
   cursor:pointer;
 }
+#buyBotContainer{
+    float:left;
+    padding:3% 0% 3% 0%;
+    width:100%;
+    text-align:center;
+}
 
 /* -------------- End of Assembly -------------- */
+
+
+/* -------------- Start of Registration -------------- */
+
+#registration{
+        width:30%;
+}
+
+
+#registration  div{
+    display:flex;
+    justify-content: space-between;
+}
+#registration input{
+    width:60%;
+}
+
+#registration input[type='submit']{
+    width:30%;
+}
+
+/* -------------- End of Registration -------------- */

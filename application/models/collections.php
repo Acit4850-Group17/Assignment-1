@@ -1,57 +1,53 @@
 <?php
-class Collections extends CI_Model {
+class Collections extends MY_Model {
 
 	//constructor as good practice
 	function __construct(){
-
-		parent::__construct();
-
+		parent::__construct("http://botcards.jlparry.com/data/certificates");
 	}
 
 	//Returns all collected robots in descending order by post date
 	// Where clause removes header row
 	function all(){
-		$query = $this->db->query(" SELECT Series,
-									SUBSERIES,
-									CardPosition,
-									Player,
-									Token,
-									Datetime
-									FROM collections ORDER BY Datetime DESC;");
-
-		return $query->result_array();
+		$return = $this->get_all();
+		return $return;
 	}
 
 	//returns all collected robots for a single player ordered by date, descending (most recent to least)
 	function collection_by_player($playerName){
-		$query = $this->db->query(" SELECT Series,
-									SubSeries,
-									CardPosition,
-									Player,
-									Token,
-									Datetime
-									FROM collections
-									WHERE Player = '$playerName' ORDER BY Datetime DESC;");
-		return $query->result_array();
+		$name = strtolower($playerName);
+		//should probably also filter by agent in case two players have the same name
+		$return = $this->get_limited("player", $name);
+		return $return;
 	}
 
 	//returns a count of the players cards
 	function get_player_equity($playerName){
-		$query = $this->db->query("SELECT COUNT(*) AS Equity FROM collections WHERE player = '$playerName'");
-		$value = $query->result_array();
-		return $value[0]['Equity'];
+		$name = strtolower($playerName);
+		$return = $this->get_limited("player", $name);
+		if($return != ""){
+			$value = count($return);
+		}
+		else{
+			$value = 0;
+		}
+		return $value;
 	}
 
 	//returns all distinct players in the collections table
 	function get_players(){
-		$query = $this->db->query("SELECT distinct(Player) FROM collections;");
-		return $query->result_array();
+		$return = $this->get_all();
+		$players;
+		foreach($return as $piece){
+			$players[] = $piece["player"];
+		}
+		return array_unique($players);
 	}
 
 	//returns a single card based on it's token
 	function collection_by_token($token){
-		$query = $this->db->query("SELECT * FROM collections WHERE Token = '$token';");
-		return $query->row_array();
+		$return = $this->get_limited("token", $token);
+		return $return;
 	}
 
 

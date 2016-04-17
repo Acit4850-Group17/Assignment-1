@@ -40,22 +40,29 @@ class Application extends CI_Controller {
 		}
 
 		//handles if the user is signed in or not, for just the nav bar (same across all pages)
+		$options = "<ul> <li> <a href='/'>Home</a></li>";
 		if(isset($_SESSION['loggedIn']) && isset($_SESSION['username'])){
+
 			if($_SESSION['loggedIn'] == true){
-				$this->data['options'] = "<ul> <li> <a href='/'>Home</a></li> <li><a href='/portfolio/" . $_SESSION['username'] . " '>Portfolio</a></li> <li><a href='/assembly'>Assembler</a></li> </ul>";
+				$options .=  "<li><a href='/portfolio/" . $_SESSION['username'] . " '>Portfolio</a></li> <li><a href='/assembly'>Assembler</a></li>";
+				if($this->players->get_player_admin($_SESSION['username'])){
+					$options .= "<li> <a href='/Admin'>Administration</a></li>";
+				}
 				$this->data['signOptions'] = "Welcome, " . $_SESSION['username'] . "!<input id='btnLogout' type='button' value='Log Out'>";
 			}
 			else{
-				$this->data['options'] = "<ul> <li><a href='/'>Home</a></li></ul>";
-				$this->data['signOptions'] = "<input type='text'><input id='btnLogin' type='button' value='Log In'>";
+				$options .= "<li><a href='/Registration'>Register</a></li>";
+				$this->data['signOptions'] = "<input id='inputUsername' placeholder='username' type='text'> <input id='inputPass' placeholder='password' type='password'><input id='btnLogin' type='button' value='Log In'>";
 			}
 		}
 
 		else{
-			$this->data['options'] = "<ul> <li><a href='/'>Home</a></li></ul>";
-			$this->data['signOptions'] = "<input id='txtSignIn' type='text'> <input id='btnLogin' type='button' value='Log In'>";
+			$options .= "<li><a href='/Registration'>Register</a></li>";
+			$this->data['signOptions'] = "<input id='inputUsername' placeholder='username' type='text'> <input id='inputPass' placeholder='password' type='password'> <input id='btnLogin' type='button' value='Log In'>";
 		}
 
+		$options .= "</ul>";
+		$this->data['options'] = $options;
 		// builds the rest of the page
 		$this->data['data'] = &$this->data;
 		$this->parser->parse('_template', $this->data);
@@ -65,13 +72,17 @@ class Application extends CI_Controller {
 	//Logging in function, starts the session handler and sets username and loggedin
 	public function login(){
 		$username = $this->input->post('username', TRUE);
-		if(!empty($username)){
+		$password = $this->input->post('password', TRUE);
+
+		if(!empty($username) && !empty($password)){
+			if($this->players->check_player_credential($username, $password)){
 			session_start();
 				$_SESSION['loggedIn'] = true;
 				$_SESSION['username'] = $username;
 				echo 1;
+				redirect("/Admin");
+			}
 		}
-
 	}
 
 	//Logging out function, unsets the username, sets loggedin to false

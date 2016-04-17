@@ -59,6 +59,5 @@ $route['portfolio/(:any)'] = 'Portfolio/index/$1';
 if(ISSET($_SESSION['username'])){
   $route['portfolio'] = 'Portfolio/index/' . $_SESSION['username'];
 }
-$route['get_collection_by_token'] = 'Assembly/get_collection_by_token/';
 $route['login'] = 'Welcome/login/';
 $route['logout'] = 'Welcome/logout/';
